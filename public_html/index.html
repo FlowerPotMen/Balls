@@ -1,0 +1,112 @@
+
+<script src="Ball.js">
+</script>
+
+<script type="text/javascript">
+    
+    //http://gamedevelopment.tutsplus.com/tutorials/when-worlds-collide-simulating-circle-circle-collisions--gamedev-769
+
+    
+    var howManyBalls = 6;
+    var balls = [];
+    
+    function run(){
+        
+        for (var i=0;i<howManyBalls;i++){
+            balls[i] = new Ball(myCanvas,randomNumber(800,1),randomNumber(800,1),randomNumber(3,1),randomNumber(3,1),randomNumber(40,10),i);
+            balls[i].init();
+            
+        }
+        
+        setInterval(function(){
+            for (var i=0;i<howManyBalls;i++){
+                balls[i].move();
+                
+            }
+            checkCollision();
+    },10); 
+        
+        
+    }
+    
+    
+    
+    function checkCollision(){
+        for (var i=0;i<howManyBalls;i++){
+            for (var j=0;j<howManyBalls;j++){
+                
+                if (i != j){
+                    var firstBall = balls[i];
+                    var secondBall = balls[j];
+                    var distance = Math.sqrt(
+                                               (
+                                                (firstBall.x - secondBall.x) * 
+                                                (firstBall.x - secondBall.x)
+                                               ) + 
+                                               (
+                                                 (firstBall.y - secondBall.y) * 
+                                                 (firstBall.y - secondBall.y)
+                                                )
+                                             );
+
+                    if ((distance < firstBall.radius + secondBall.radius) &&
+                         (firstBall.collision[secondBall.name]!=1 || secondBall.collision[firstBall.name]!=1)   )
+                    {
+                        firstBall.color = "#00ff00";
+                        secondBall.color = "#00ff00";
+                        firstBall.collision[secondBall.name]=1;
+                        secondBall.collision[firstBall.name]=1;
+                        firstBall.collCount++;
+                        secondBall.collCount++;
+                    }
+                    else if (distance > firstBall.radius + secondBall.radius){
+                        
+                        if (firstBall.collision[secondBall.name] == 1 &&
+                            secondBall.collision[firstBall.name] == 1   ){
+                            delete firstBall.collision[secondBall.name];
+                            delete secondBall.collision[firstBall.name];
+                            firstBall.collCount--;
+                            secondBall.collCount--;                          
+                        
+                        }
+                        if (firstBall.collCount == 0){
+                            firstBall.color = "#0000ff";
+                        }
+                        if (secondBall.collCount ==0){
+                            secondBall.color = "#0000ff";
+                        }
+                    }
+
+                }
+            }
+        
+        
+        }
+    }
+    
+    function randomNumber(max,min){
+        
+        return Math.floor((Math.random() * max) + min);
+        
+    }
+    
+
+
+
+</script>
+    
+
+<html>
+<head>
+
+
+</head>
+<body onload="run();">
+
+<div id="container">
+	
+	<canvas id="myCanvas" width="2000" height="2000"></canvas>
+</div>
+
+</body>
+</html>
