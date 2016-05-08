@@ -7,13 +7,13 @@
     //http://gamedevelopment.tutsplus.com/tutorials/when-worlds-collide-simulating-circle-circle-collisions--gamedev-769
 
     
-    var howManyBalls = 6;
+    var howManyBalls = 8;
     var balls = [];
     
     function run(){
         
         for (var i=0;i<howManyBalls;i++){
-            balls[i] = new Ball(myCanvas,randomNumber(800,1),randomNumber(800,1),randomNumber(3,1),randomNumber(3,1),randomNumber(40,10),i);
+            balls[i] = new Ball(myCanvas,randomNumber(800,1),randomNumber(800,1),randomNumber(10,1),randomNumber(10,1),randomNumber(40,10),i);
             balls[i].init();
             
         }
@@ -58,6 +58,9 @@
                         secondBall.collision[firstBall.name]=1;
                         firstBall.collCount++;
                         secondBall.collCount++;
+                        
+                        bounce(firstBall,secondBall);
+                        
                     }
                     else if (distance > firstBall.radius + secondBall.radius){
                         
@@ -87,6 +90,38 @@
     function randomNumber(max,min){
         
         return Math.floor((Math.random() * max) + min);
+        
+    }
+    
+    function bounce(firstBall,secondBall){
+        
+            newVelX1 = (firstBall.dx * (firstBall.radius - secondBall.radius) + (2 * secondBall.radius * secondBall.dx)) / (firstBall.radius + secondBall.radius);
+            newVelY1 = (firstBall.dy * (firstBall.radius - secondBall.radius) + (2 * secondBall.radius * secondBall.dy)) / (firstBall.radius + secondBall.radius);
+            newVelX2 = (secondBall.dx * (secondBall.radius - firstBall.radius) + (2 * firstBall.radius * firstBall.dx)) / (firstBall.radius + secondBall.radius);
+            newVelY2 = (secondBall.dy * (secondBall.radius - firstBall.radius) + (2 * firstBall.radius * firstBall.dy)) / (firstBall.radius + secondBall.radius);
+               firstBall.clearLast();
+            secondBall.clearLast();         
+            firstBall.x = firstBall.x + newVelX1;
+            firstBall.y = firstBall.y + newVelY1;
+            secondBall.x = secondBall.x + newVelX2;
+            secondBall.y = secondBall.y + newVelY2;
+            
+
+            
+            firstBall.dx = newVelX1;
+            firstBall.dy = newVelY1;
+            firstBall.init();
+            secondBall.dx = newVelX2;
+            secondBall.dy = newVelY2;
+            
+            
+            //firstBall.radius++;
+            //secondBall.radius--;
+            
+            //if (secondBall.radius == 1){
+            //    Balls.delete(secondBall.name);
+            //}
+            
         
     }
     
