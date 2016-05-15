@@ -40,12 +40,27 @@ function Ball(canv,x,y,dx,dy,radius,name){
         
         this.clearLast();
         
-      	if( this.x<0 || this.x>this.maxx){
+        if (this.x<0){
+            this.x = this.maxx;
+        }
+        else if(this.x > this.maxx){
+            this.x = 0
+        }
+        if (this.y<0){
+            this.y = this.maxy;
+        }
+        else if(this.y > this.maxy){
+            this.y = 0
+        }
+        
+      	/*if( this.x<0 || this.x>this.maxx){
         	this.dx=-this.dx;
         }
 	if( this.y<0 || this.y>this.maxy){
 		this.dy=-this.dy;
-        }
+        }*/
+        
+        
         this.x+=this.dx;
 	this.y+=this.dy;
         

@@ -13,7 +13,7 @@
     function run(){
         
         for (var i=0;i<howManyBalls;i++){
-            balls[i] = new Ball(myCanvas,randomNumber(800,1),randomNumber(800,1),randomNumber(10,1),randomNumber(10,1),randomNumber(40,10),i);
+            balls[i] = new Ball(myCanvas,randomNumber(800,1),randomNumber(800,1),randomNumber(20,1)-10,randomNumber(20,1)-10,randomNumber(40,10),i);
             balls[i].init();
             
         }
